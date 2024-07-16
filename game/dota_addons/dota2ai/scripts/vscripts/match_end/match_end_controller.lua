@@ -12,10 +12,8 @@ local function Restart()
     SendToServerConsole("dota_launch_custom_game Dota2-AI-Framework dota")
 end
 
--- Stops game by kicking running admin. \
--- Note: does not inform server of exit.
 local function Exit()
-    SendToServerConsole("kickid 1")
+    SendToServerConsole("disconnect")
 end
 
 -- Informs server of game end. Use server response to determine whether to restart addon or to exit game.
