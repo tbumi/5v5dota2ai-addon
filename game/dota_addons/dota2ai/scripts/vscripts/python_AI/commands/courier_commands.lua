@@ -64,13 +64,13 @@ function Courier_commands:Sell(hero_entity, command_props)
                 courier_entity:SellItem(item_entity)
                 EmitSoundOn("General.Sell", courier_entity)
             else
-                Warning("Item in slot " .. slot .. " of courier is not sellable.")
+                print("Item in slot " .. slot .. " of courier is not sellable.")
             end
         else
-            Warning("No item in slot " .. slot .. " of courier.")
+            print("No item in slot " .. slot .. " of courier.")
         end
     else
-        Warning("Bot tried to sell courier item outside shop.")
+        print("Bot tried to sell courier item outside shop.")
     end
 end
 

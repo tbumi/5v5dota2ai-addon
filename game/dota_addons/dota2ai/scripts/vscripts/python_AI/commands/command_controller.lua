@@ -33,7 +33,7 @@ function Command_controller:Parse_hero_command(hero_entity, command_props)
 
     --TODO deal with abilities that the hero can interrupt
     if self:Hero_has_active_ability(hero_entity) then
-        Warning(hero_entity:GetName() .. " is casting an ability. " .. command .. " was ignored.")
+        print(hero_entity:GetName() .. " is casting an ability. " .. command .. " was ignored.")
         return
     end
 
@@ -72,7 +72,7 @@ function Command_controller:Parse_hero_command(hero_entity, command_props)
     elseif command == "COURIER_MOVE_TO_POSITION"                    then Courier_commands:Move_to_position(hero_entity, command_props)
     elseif command == "COURIER_SELL"                                then Courier_commands:Sell(hero_entity, command_props)
     else
-        Warning(hero_entity:GetName() .. " sent invalid command " .. command)
+        print(hero_entity:GetName() .. " sent invalid command " .. command)
     end
 end
 
@@ -148,7 +148,7 @@ function Command_controller:Buy(hero_entity, command_props)
     local item_name = command_props.item
 
     if not self:Hero_can_afford_item(hero_entity, item_name) then
-        Warning(hero_entity:GetName() .. " tried to buy " .. item_name .. " but couldn't afford it")
+        print(hero_entity:GetName() .. " tried to buy " .. item_name .. " but couldn't afford it")
         return
     end
 
@@ -159,7 +159,7 @@ function Command_controller:Buy(hero_entity, command_props)
         if self:Unit_can_buy_item(courier_entity, item_name) then
             self:Buy_item_for_unit(courier_entity, hero_entity, item_name)
         else
-            Warning(hero_entity:GetName() .. " tried to buy " .. item_name .. " but neither hero nor courier was not in range!")
+            print(hero_entity:GetName() .. " tried to buy " .. item_name .. " but neither hero nor courier was not in range!")
         end
     end
 end
@@ -177,13 +177,13 @@ function Command_controller:Sell(unit_entity, command_props)
                 unit_entity:SellItem(item_entity)
                 EmitSoundOn("General.Sell", unit_entity)
             else
-                Warning("Item in slot " .. slot .. " is not sellable.")
+                print("Item in slot " .. slot .. " is not sellable.")
             end
         else
-            Warning("No item in slot " .. slot)
+            print("No item in slot " .. slot)
         end
     else
-        Warning("Bot tried to sell item outside shop")
+        print("Bot tried to sell item outside shop")
     end
 end
 
@@ -207,21 +207,21 @@ end
 function Command_controller:Level_up(hero_entity, command_props)
     local ability_points = hero_entity:GetAbilityPoints()
     if ability_points <= 0 then
-        Warning(hero_entity:GetName() .. " has no ability points. Why am I levelling up?")
+        print(hero_entity:GetName() .. " has no ability points. Why am I levelling up?")
         return
     end
 
     local ability_entity = hero_entity:GetAbilityByIndex(command_props.ability)
 
     if ability_entity:GetLevel() == ability_entity:GetMaxLevel() then
-        Warning(hero_entity:GetName() .. ": " .. ability_entity:GetName() .. " is maxed out")
+        print(hero_entity:GetName() .. ": " .. ability_entity:GetName() .. " is maxed out")
         return
     end
 
     local required_level = ability_entity:GetHeroLevelRequiredToUpgrade()
     local hero_level = hero_entity:GetLevel()
     if hero_level < required_level then
-        Warning(hero_entity:GetName() .. "(level " .. hero_level .. ") tried to level up ability " .. ability_entity:GetName() .. " which requries level " .. required_level)
+        print(hero_entity:GetName() .. "(level " .. hero_level .. ") tried to level up ability " .. ability_entity:GetName() .. " which requries level " .. required_level)
         return
     end
 
@@ -260,7 +260,7 @@ function Command_controller:Use_item(hero_entity, command_props)
     local slot = command_props.slot
 
     if not self:Item_slot_in_useable_range(slot) then
-        Warning(string.format(USE_SLOT_OUTSIDE_RANGE_WARNING_FORMAT, hero_entity:GetName(), slot))
+        print(string.format(USE_SLOT_OUTSIDE_RANGE_WARNING_FORMAT, hero_entity:GetName(), slot))
         return
     end
 
@@ -269,7 +269,7 @@ function Command_controller:Use_item(hero_entity, command_props)
     if item_entity then
         self:Use_ability(hero_entity, item_entity, command_props)
     else
-        Warning("Bot tried to use item in empty slot")
+        print("Bot tried to use item in empty slot")
     end
 end
 
@@ -288,7 +288,7 @@ function Command_controller:Swap_item_slots(hero_entity, command_props)
 
     for index, slot in ipairs({slot1, slot2}) do
         if not self:Item_slot_in_range(slot) then
-            Warning(string.format(SWAP_SLOT_OUTSIDE_RANGE_WARNING_FORMAT, hero_entity:GetName(), index, slot))
+            print(string.format(SWAP_SLOT_OUTSIDE_RANGE_WARNING_FORMAT, hero_entity:GetName(), index, slot))
             return
         end
     end
@@ -306,7 +306,7 @@ function Command_controller:Disassemble_item(hero_entity, command_props)
     if item_entity and self:Hero_can_disassemble_item(item_entity) then
         hero_entity:DisassembleItem(item_entity)
     else
-        Warning("Hero" .. hero_entity:GetName() .. "tried to disassemble Item" .. item_entity:GetName())
+        print("Hero" .. hero_entity:GetName() .. "tried to disassemble Item" .. item_entity:GetName())
     end
 end
 
@@ -332,7 +332,7 @@ function Command_controller:Check_and_unlock_item(hero_entity, command_props)
             item_entity:SetCombineLocked(false)
         end
     else
-        Warning("No item in slot " .. slot)
+        print("No item in slot " .. slot)
     end
 end
 
@@ -347,7 +347,7 @@ function Command_controller:Check_and_lock_item(hero_entity, command_props)
             item_entity:SetCombineLocked(true)
         end
     else
-        Warning("No item in slot " .. slot)
+        print("No item in slot " .. slot)
     end
 end
 
@@ -360,7 +360,7 @@ function Command_controller:Toggle_item(hero_entity, command_props)
     if item_entity then
         item_entity:OnToggle()
     else
-        Warning("No item in slot " .. slot)
+        print("No item in slot " .. slot)
     end
 end
 
@@ -387,10 +387,10 @@ function Command_controller:Use_tp_scroll(hero_entity, command_props)
         if tp_scroll_entity:IsCooldownReady() then
             self:Use_ability(hero_entity, tp_scroll_entity, command_props)
         else
-            Warning("Bot tried to use town portal scrolls while on cooldown.")
+            print("Bot tried to use town portal scrolls while on cooldown.")
         end
     else
-        Warning("Bot has no town portal scrolls available.")
+        print("Bot has no town portal scrolls available.")
     end
 end
 
@@ -515,10 +515,10 @@ end
 ---@return boolean
 function Command_controller:Hero_can_cast_ability(hero_entity, ability_entity)
     if not self:Hero_can_afford_to_cast_ability(hero_entity, ability_entity) then
-        Warning("Bot tried to use ability without mana")
+        print("Bot tried to use ability without mana")
         return false
     elseif ability_entity:GetCooldownTimeRemaining() > 0 then
-        Warning("Bot tried to use ability still on cooldown")
+        print("Bot tried to use ability still on cooldown")
         return false
     end
     return true
@@ -533,14 +533,14 @@ function Command_controller:Use_ability(hero_entity, ability_entity, command_pro
     local behavior = ability_entity:GetBehavior()
 
     if level == 0 then
-        Warning("Bot tried to use ability without level")
+        print("Bot tried to use ability without level")
         return
     end
 
     if not self:Hero_can_afford_to_cast_ability(hero_entity, ability_entity) then
-        Warning("Bot tried to use ability without mana")
+        print("Bot tried to use ability without mana")
     elseif ability_entity:GetCooldownTimeRemaining() > 0 then
-        Warning("Bot tried to use ability still on cooldown")
+        print("Bot tried to use ability still on cooldown")
     else
         if not ability_entity:IsItem() then
             ability_entity:StartCooldown(ability_entity:GetCooldown(level))
@@ -562,7 +562,7 @@ function Command_controller:Use_ability(hero_entity, ability_entity, command_pro
             hero_entity:CastAbilityOnPosition(Vector(command_props.x, command_props.y, command_props.z), ability_entity, player_id)
 
         else
-            Warning(hero_entity:GetName() .. " sent invalid cast command " .. behavior)
+            print(hero_entity:GetName() .. " sent invalid cast command " .. behavior)
         end
     end
 end
