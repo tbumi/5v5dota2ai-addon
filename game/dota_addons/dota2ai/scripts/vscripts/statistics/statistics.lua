@@ -141,7 +141,7 @@ end
 
 ---@param statistics table to be sent to the server.
 function Statistics:Send_statistics(statistics)
-    local route = "http://localhost:8080/api/statistics"
+    local route = "http://192.168.0.14:8080/api/statistics"
     local body = package.loaded["game/dkjson"].encode(statistics)
 
     local request = CreateHTTPRequestScriptVM("POST", route)

@@ -45,7 +45,7 @@ function Update_handler:Update(entities, heroes, on_update_callback)
     local route = self:Get_route(heroes)
 
     ---@type table
-    local request = CreateHTTPRequestScriptVM("POST", "http://localhost:8080/api/" .. route)
+    local request = CreateHTTPRequestScriptVM("POST", "http://192.168.0.14:8080/api/" .. route)
     request:SetHTTPRequestHeaderValue("Accept", "application/json")
     request:SetHTTPRequestRawPostBody("application/json", body)
     request:Send(
