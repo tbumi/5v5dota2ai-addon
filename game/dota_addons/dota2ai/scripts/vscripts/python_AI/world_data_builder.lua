@@ -121,6 +121,7 @@ function World_data_builder:Get_hero_abilities(hero_entity)
         abilities[index].toggleState = ability_entity:GetToggleState()
         abilities[index].manaCost = ability_entity:GetManaCost(ability_entity:GetLevel())
         abilities[index].heroLevelRequiredToLevelUp = ability_entity:GetHeroLevelRequiredToUpgrade()
+        abilities[index].charges = ability_entity:GetCurrentAbilityCharges()
     end
 
     return abilities
