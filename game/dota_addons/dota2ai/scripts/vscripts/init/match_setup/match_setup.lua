@@ -7,16 +7,10 @@ function Match_setup:Set_bot_thinking_enabled()
     GameMode:SetBotThinkingEnabled(true)
 end
 
--- Selection time, showcase time, strategy time and game setup time are all set to 1 second. \
--- Pre-game time is set to 90 seconds if game should have pre game time (defined in Settings).
+-- Strategy time and showcase time are skipped.
 function Match_setup:Remove_all_game_rule_starting_delays()
-    GameRules:SetHeroSelectionTime(1.)
-    GameRules:SetShowcaseTime(1.)
-    GameRules:SetStrategyTime(1.)
-    GameRules:SetCustomGameSetupTimeout(1.)
-    if Settings.should_have_pre_game_delay then
-        GameRules:SetPreGameTime(90.)
-    end
+    GameRules:SetStrategyTime(1) -- give time for heroes to be selected
+    GameRules:SetShowcaseTime(0)
 end
 
 -- Allows both teams to see each other, meaning data of all entities are sent to both python-bot. \
@@ -34,14 +28,8 @@ function Match_setup:Grant_global_vision()
     end
 end
 
--- Finish game setup after 1 second.
 function Match_setup:Auto_launch_custom_game()
-    Timers:CreateTimer({
-        endTime = 1.,
-        callback = function()
-            GameRules:FinishCustomGameSetup()
-        end
-    })
+    GameRules:FinishCustomGameSetup()
 end
 
 -- Populate game with bots.
@@ -68,7 +56,7 @@ function Match_setup:Enable_courier()
 end
 
 function Match_setup:Start_day_night_cycle()
-    GameRules:SetTimeOfDay(0.251)
+    GameRules:SetTimeOfDay(0.25)
 end
 
 -- Run game setup. \
