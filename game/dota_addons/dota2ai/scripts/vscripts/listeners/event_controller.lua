@@ -60,7 +60,7 @@ function Event_controller:On_game_state_change()
     elseif Game_state_controller:Is_game_in_progress_state() then
         Run_callbacks(in_progress_game_state_callbacks)
 
-    elseif Game_state_controller.Is_post_game_state() then
+    elseif Game_state_controller:Is_post_game_state() then
         Run_callbacks(post_game_state_callbacks)
 
     end
