@@ -34,7 +34,7 @@ end
 
 -- Populate game with bots.
 function Match_setup:Populate_game()
-    SendToServerConsole("dota_bot_populate")
+    GameRules:BotPopulate()
 end
 
 -- Start spawning creeps.

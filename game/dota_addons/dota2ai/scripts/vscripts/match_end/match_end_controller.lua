@@ -7,9 +7,9 @@ local Match_end_controller = {}
 -- preventing more than 1 match_end per game.
 local end_flag = false
 
--- Runs console command "dota_launch_custom_game Dota2-AI-Framework dota", forcing a restart provided Addon has the name "Dota2-AI-Framework".
+-- Runs console command "dota_launch_custom_game dota2ai dota", forcing a restart provided Addon has the name "dota2ai".
 local function Restart()
-    SendToServerConsole("dota_launch_custom_game Dota2-AI-Framework dota")
+    SendToServerConsole("dota_launch_custom_game dota2ai dota")
 end
 
 local function Exit()
