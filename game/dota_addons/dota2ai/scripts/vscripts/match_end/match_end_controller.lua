@@ -28,7 +28,7 @@ function Match_end_controller:Handle_match_end()
     local body = package.loaded["game/dkjson"].encode(end_game_stats)
 
     ---@type table
-    local request = CreateHTTPRequestScriptVM("POST", "http://192.168.0.14:8080/api/game_ended")
+    local request = CreateHTTPRequestScriptVM("POST", "http://localhost:8080/api/game_ended")
     request:SetHTTPRequestHeaderValue("Accept", "application/json")
     request:SetHTTPRequestRawPostBody("application/json", body)
     request:Send(
@@ -48,7 +48,7 @@ end
 -- Informs server of restart, then restarts addon.
 function Match_end_controller:Handle_restart_game()
     ---@type table
-    local request = CreateHTTPRequestScriptVM("POST", "http://192.168.0.14:8080/api/restart_game")
+    local request = CreateHTTPRequestScriptVM("POST", "http://localhost:8080/api/restart_game")
     request:Send(
         ---@param response_json table
         function(response_json)

@@ -4,7 +4,7 @@ local Settings_setup = {}
 -- Request settings from server and put response into global table Settings.
 function Settings_setup:Get_and_set_settings()
     ---@type table
-    local request = CreateHTTPRequestScriptVM("GET", "http://192.168.0.14:8080/api/settings")
+    local request = CreateHTTPRequestScriptVM("GET", "http://localhost:8080/api/settings")
     request:Send(
         ---@param settings_json table
         function(settings_json)
