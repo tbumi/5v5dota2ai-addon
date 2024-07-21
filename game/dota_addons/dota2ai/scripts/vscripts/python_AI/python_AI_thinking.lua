@@ -44,7 +44,6 @@ function Python_AI_thinking:Game_should_end()
 end
 
 ---@param heroes CDOTA_BaseNPC_Hero[]
----@return number
 function Python_AI_thinking:On_think(heroes)
     if Python_AI_thinking:Game_should_end() then
         Match_end_controller:Handle_match_end()
@@ -53,9 +52,12 @@ function Python_AI_thinking:On_think(heroes)
 
     Python_AI_thinking:Before_world_building(heroes)
 
-    local all_entities = World_data_builder:Get_all_entities(heroes[1])
-
-    Update_handler:Update(all_entities, heroes, self.On_update)
+    Timers:CreateTimer({
+        callback = function()
+            local all_entities = World_data_builder:Get_all_entities(heroes[1])
+            return Update_handler:Update(all_entities, heroes, self.On_update)
+        end
+    })
 end
 
 ---@param heroes CDOTA_BaseNPC_Hero[]

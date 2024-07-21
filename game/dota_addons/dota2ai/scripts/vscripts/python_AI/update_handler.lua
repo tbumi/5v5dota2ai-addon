@@ -14,6 +14,9 @@ local restart_flag = false
 local RADIANT_UPDATE_ROUTE = "radiant_update"
 local DIRE_UPDATE_ROUTE = "dire_update"
 
+local update_in_progress = {}
+update_in_progress[DOTA_TEAM_GOODGUYS] = false
+update_in_progress[DOTA_TEAM_BADGUYS] = false
 
 
 -- Update_handler
@@ -33,6 +36,12 @@ end
 ---@param heroes CDOTA_BaseNPC_Hero[]
 ---@param on_update_callback fun(heroes: CDOTA_BaseNPC_Hero[], commands: table)
 function Update_handler:Update(entities, heroes, on_update_callback)
+    local team = heroes[1]:GetTeam()
+    if update_in_progress[team] then
+        return 0.01
+    end
+    update_in_progress[team] = true
+
     ---@type table
     local body = package.loaded["game/dkjson"].encode(
         {
@@ -69,6 +78,7 @@ function Update_handler:Update(entities, heroes, on_update_callback)
             ---@type table
             local commands = package.loaded["game/dkjson"].decode(result["Body"])
             on_update_callback(heroes, commands)
+            update_in_progress[team] = false
         end
     )
 end
