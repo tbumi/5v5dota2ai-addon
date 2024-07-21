@@ -118,8 +118,8 @@ end
 ---@param name_of_item_to_buy string
 function Command_controller:Buy_item_for_unit(unit_entity, hero_entity, name_of_item_to_buy)
     EmitSoundOn("General.Buy", unit_entity)
-    unit_entity:AddItem(CreateItem(name_of_item_to_buy, unit_entity, unit_entity))
     hero_entity:SpendGold(GetItemCost(name_of_item_to_buy), DOTA_ModifyGold_PurchaseItem) --should the reason take DOTA_ModifyGold_PurchaseConsumable into account?
+    unit_entity:AddItem(CreateItem(name_of_item_to_buy, unit_entity, unit_entity))
 end
 
 -- Unit can buy item when:
@@ -225,8 +225,8 @@ function Command_controller:Level_up(hero_entity, command_props)
         return
     end
 
-    ability_entity:UpgradeAbility(false)
     hero_entity:SetAbilityPoints(ability_points - 1)
+    ability_entity:UpgradeAbility(false)
 end
 
 ---@param hero_entity CDOTA_BaseNPC_Hero
