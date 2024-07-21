@@ -1,5 +1,6 @@
 -- imports
 local Match_end_controller = require "match_end.match_end_controller"
+local World_data_builder = require "python_AI.world_data_builder"
 
 
 
@@ -32,16 +33,16 @@ function Update_handler:Get_route(heroes)
     end
 end
 
----@param entities table
 ---@param heroes CDOTA_BaseNPC_Hero[]
 ---@param on_update_callback fun(heroes: CDOTA_BaseNPC_Hero[], commands: table)
-function Update_handler:Update(entities, heroes, on_update_callback)
+function Update_handler:Update(heroes, on_update_callback)
     local team = heroes[1]:GetTeam()
     if update_in_progress[team] then
         return 0.01
     end
     update_in_progress[team] = true
 
+    local entities = World_data_builder:Get_all_entities(heroes[1])
     ---@type table
     local body = package.loaded["game/dkjson"].encode(
         {

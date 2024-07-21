@@ -1,8 +1,6 @@
 -- imports
-local World_data_builder = require "python_AI.world_data_builder"
 local Update_handler = require "python_AI.update_handler"
 local Command_controller = require "python_AI.commands.command_controller"
-local Utilities = require "utilities.utilities"
 local Match_end_controller = require "match_end.match_end_controller"
 
 
@@ -54,8 +52,7 @@ function Python_AI_thinking:On_think(heroes)
 
     Timers:CreateTimer({
         callback = function()
-            local all_entities = World_data_builder:Get_all_entities(heroes[1])
-            return Update_handler:Update(all_entities, heroes, self.On_update)
+            return Update_handler:Update(heroes, self.On_update)
         end
     })
 end
