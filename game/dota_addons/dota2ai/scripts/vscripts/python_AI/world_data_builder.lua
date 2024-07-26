@@ -216,6 +216,7 @@ function World_data_builder:Get_unit_data(unit_entity)
         end
 
     elseif unit_entity:IsBuilding() then
+        unit_data.isInvulnerable = unit_entity:IsInvulnerable()
         if unit_entity:IsTower() then
             unit_data.type = "Tower"
         else
