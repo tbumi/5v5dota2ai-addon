@@ -2,6 +2,8 @@
 local Update_handler = require "python_AI.update_handler"
 local Command_controller = require "python_AI.commands.command_controller"
 local Match_end_controller = require "match_end.match_end_controller"
+local Utilities = require "utilities.utilities"
+local Hero_setup_controller = require "init.hero_setup.hero_setup_controller"
 
 
 
@@ -48,11 +50,15 @@ function Python_AI_thinking:On_think(heroes)
         return
     end
 
-    Python_AI_thinking:Before_world_building(heroes)
+    local all_heroes = Utilities:Concat_lists(
+        Hero_setup_controller:Get_radiant_heroes(),
+        Hero_setup_controller:Get_dire_heroes()
+    )
+    Python_AI_thinking:Before_world_building(all_heroes)
 
     Timers:CreateTimer({
         callback = function()
-            return Update_handler:Update(heroes, self.On_update)
+            return Update_handler:Update(all_heroes, self.On_update)
         end
     })
 end

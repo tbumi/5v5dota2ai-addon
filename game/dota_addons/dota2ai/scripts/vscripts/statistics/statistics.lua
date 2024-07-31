@@ -80,15 +80,12 @@ end
 ---@param game_number integer
 function Statistics:Collect_statistics(radiant_heroes, dire_heroes, game_number)
     local heroes = Utilities:Concat_lists(radiant_heroes, dire_heroes)
-    local stats = {}
     local fields = {}
 
-    stats["game_number"] = game_number
 
     -- General game statistics that are not tied to a particular hero.
     -- There is also GameRules:GetGameTime() but that one includes time in menus.
     -- Menu time is turned off in this command by setting the first argument to false.
-    fields["game_time"] = GameRules:GetDOTATime(false, true)
 
     -- Hero specific stats.
     for i, hero in ipairs(heroes) do
@@ -134,9 +131,7 @@ function Statistics:Collect_statistics(radiant_heroes, dire_heroes, game_number)
         fields[(i - 1) .. "_denies"] = hero:GetDenies()
     end
 
-    stats["fields"] = fields
-
-    return stats
+    return fields
 end
 
 ---@param statistics table to be sent to the server.
