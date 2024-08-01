@@ -17,7 +17,7 @@ local function Exit()
 end
 
 -- Informs server of game end. Use server response to determine whether to restart addon or to exit game.
-function Match_end_controller:Handle_match_end()
+function Match_end_controller:Handle_match_end(winner)
     if end_flag then
         return
     end
@@ -25,6 +25,7 @@ function Match_end_controller:Handle_match_end()
     end_flag = true
 
     local end_game_stats = Statistics:Collect_end_game(Settings.game_number)
+    end_game_stats["winner"] = winner or package.loaded["game/dkjson"].null
     local body = package.loaded["game/dkjson"].encode(end_game_stats)
 
     ---@type table

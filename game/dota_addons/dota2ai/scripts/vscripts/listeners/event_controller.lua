@@ -1,5 +1,6 @@
 -- imports
 local Game_state_controller = require "game_states.game_state_controller"
+local Match_end_controller = require "match_end.match_end_controller"
 
 
 
@@ -35,8 +36,19 @@ local Event_controller = {}
 function Event_controller:Initialize_listeners()
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap( Event_controller, "On_game_state_change" ), self)
     ListenToGameEvent("player_chat", Dynamic_Wrap( Event_controller, "On_player_chat" ), self)
+    ListenToGameEvent("entity_killed", Dynamic_Wrap(Event_controller, "On_entity_killed"), self)
 end
 
+
+-- manually detect ancient killed
+function Event_controller:On_entity_killed(event_args)
+    local entity_name = EntIndexToHScript(event_args.entindex_killed):GetName()
+    if entity_name == "dota_badguys_fort" then
+        Match_end_controller:Handle_match_end("radiant")
+    elseif entity_name == "dota_goodguys_fort" then
+        Match_end_controller:Handle_match_end("dire")
+    end
+end
 
 
 -- Run all callbacks "subscribing" to `player_chat` event.

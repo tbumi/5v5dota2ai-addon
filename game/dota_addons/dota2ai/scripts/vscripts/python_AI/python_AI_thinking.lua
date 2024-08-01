@@ -46,7 +46,7 @@ end
 ---@param heroes CDOTA_BaseNPC_Hero[]
 function Python_AI_thinking:On_think(heroes)
     if Python_AI_thinking:Game_should_end() then
-        Match_end_controller:Handle_match_end()
+        Match_end_controller:Handle_match_end(nil)
         return
     end
 
