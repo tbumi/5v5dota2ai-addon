@@ -104,6 +104,16 @@ function World_data_builder:Get_hero_abilities(hero_entity)
 
     local hero_ability_key = hero_entity:GetName() .. hero_entity:GetTeam()
     for index, ability_entity in pairs(Settings.accessible_abilities[hero_ability_key]) do
+        local manaCost = ability_entity:GetManaCost(ability_entity:GetLevel())
+        if ability_entity:GetAbilityName() == "crystal_maiden_freezing_field" then
+            if ability_entity:GetLevel() == 1 then
+                manaCost = 200
+            elseif ability_entity:GetLevel() == 2 then
+                manaCost = 400
+            elseif ability_entity:GetLevel() == 3 then
+                manaCost = 600
+            end
+        end
         abilities[index] = {}
         abilities[index].type = "Ability"
         abilities[index].name = ability_entity:GetAbilityName()
@@ -119,7 +129,7 @@ function World_data_builder:Get_hero_abilities(hero_entity)
         abilities[index].cooldownTimeRemaining = ability_entity:GetCooldownTimeRemaining()
         abilities[index].behavior = ability_entity:GetBehavior()
         abilities[index].toggleState = ability_entity:GetToggleState()
-        abilities[index].manaCost = ability_entity:GetManaCost(ability_entity:GetLevel())
+        abilities[index].manaCost = manaCost
         abilities[index].heroLevelRequiredToLevelUp = ability_entity:GetHeroLevelRequiredToUpgrade()
         abilities[index].charges = ability_entity:GetCurrentAbilityCharges()
     end

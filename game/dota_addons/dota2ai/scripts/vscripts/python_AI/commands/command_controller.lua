@@ -507,7 +507,17 @@ end
 ---@param ability_entity CDOTABaseAbility
 ---@return boolean
 function Command_controller:Hero_can_afford_to_cast_ability(hero_entity, ability_entity)
-    return ability_entity:GetManaCost(ability_entity:GetLevel()) <= hero_entity:GetMana()
+    local manaCost = ability_entity:GetManaCost(ability_entity:GetLevel())
+    if ability_entity:GetAbilityName() == "crystal_maiden_freezing_field" then
+        if ability_entity:GetLevel() == 1 then
+            manaCost = 200
+        elseif ability_entity:GetLevel() == 2 then
+            manaCost = 400
+        elseif ability_entity:GetLevel() == 3 then
+            manaCost = 600
+        end
+    end
+    return manaCost <= hero_entity:GetMana()
 end
 
 ---@param hero_entity CDOTA_BaseNPC_Hero
