@@ -41,6 +41,21 @@ function World_data_builder:Insert_base_unit_data(unit_data, unit_entity)
     unit_data.isAttacking = unit_entity:IsAttacking()
     unit_data.magicimmune = unit_entity:IsMagicImmune()
     unit_data.armor = unit_entity:GetPhysicalArmorValue(false)
+    unit_data.modifiers = self:Get_modifiers_data(unit_entity)
+end
+
+---@param unit_entity CDOTA_BaseNPC
+---@return table modifiers
+function World_data_builder:Get_modifiers_data(unit_entity)
+    local modifiers = {}
+    for i, modifier in pairs(unit_entity:FindAllModifiers()) do
+        modifiers[i] = {}
+        modifiers[i].name = modifier:GetName()
+        modifiers[i].duration = modifier:GetDuration()
+        modifiers[i].remainingTime = modifier:GetRemainingTime()
+        modifiers[i].stackCount = modifier:GetStackCount()
+    end
+    return modifiers
 end
 
 ---@param unit_entity CDOTA_BaseNPC
