@@ -1,3 +1,5 @@
+local Match_end_controller = require "match_end.match_end_controller"
+
 -- Settings_setup
 local Settings_setup = {}
 
@@ -10,6 +12,11 @@ function Settings_setup:Get_and_set_settings()
         function(settings_json)
             if settings_json["StatusCode"] == 406 then
                 print("Request settings was Not Acceptable!")
+                return
+            end
+            if settings_json["StatusCode"] == 205 then
+                print("Number of games have reached 0.")
+                Match_end_controller:Handle_exit()
                 return
             end
             ---@type table

@@ -16,7 +16,7 @@ local function Exit()
     SendToServerConsole("disconnect")
 end
 
--- Informs server of game end. Use server response to determine whether to restart addon or to exit game.
+-- Informs server of game end.
 function Match_end_controller:Handle_match_end(winner)
     if end_flag then
         return
@@ -33,17 +33,10 @@ function Match_end_controller:Handle_match_end(winner)
     request:SetHTTPRequestHeaderValue("Accept", "application/json")
     request:SetHTTPRequestRawPostBody("application/json", body)
     request:Send(
-        ---@param response_json table
         function(response_json)
-            ---@type table
-            local response = package.loaded["game/dkjson"].decode(response_json["Body"])
-            if response.status == "restart" then
-                Restart()
-            elseif response.status == "done" then
-                Exit()
-            end
         end
     )
+    Restart()
 end
 
 -- Informs server of restart, then restarts addon.
