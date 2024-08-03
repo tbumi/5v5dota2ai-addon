@@ -212,6 +212,7 @@ function World_data_builder:Insert_player_hero_data(hero_data, hero_entity)
     hero_data.stashItems = self:Get_stash_items_data(hero_entity)
     hero_data.inRangeOfHomeShop = hero_entity:IsInRangeOfShop(DOTA_SHOP_HOME, true)
     hero_data.inRangeOfSecretShop = hero_entity:IsInRangeOfShop(DOTA_SHOP_SECRET, true)
+    hero_data.isCurrentlyCasting = Utilities:To_bool(hero_entity:GetCurrentActiveAbility())
 
     self:Insert_tp_scroll_data(hero_data, hero_entity)
 
