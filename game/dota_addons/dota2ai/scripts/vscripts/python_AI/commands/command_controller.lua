@@ -159,7 +159,7 @@ function Command_controller:Buy(hero_entity, command_props)
         if self:Unit_can_buy_item(courier_entity, item_name) then
             self:Buy_item_for_unit(courier_entity, hero_entity, item_name)
         else
-            print(hero_entity:GetName() .. " tried to buy " .. item_name .. " but neither hero nor courier was not in range!")
+            print(hero_entity:GetName() .. " tried to buy " .. item_name .. " but neither hero nor courier was in range!")
         end
     end
 end
