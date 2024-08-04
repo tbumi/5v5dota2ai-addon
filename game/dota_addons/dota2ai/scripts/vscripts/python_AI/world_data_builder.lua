@@ -73,6 +73,7 @@ function World_data_builder:Get_items_data(unit_entity)
             items[i].combineLocked = item:IsCombineLocked()
             items[i].disassemblable = Command_controller:Hero_can_disassemble_item(item)
             items[i].cooldownTimeRemaining = item:GetCooldownTimeRemaining()
+            items[i].isStackable = item:IsStackable()
         end
     end
     return items
@@ -191,6 +192,7 @@ function World_data_builder:Get_stash_items_data(hero_entity)
             items[i].combineLocked = item:IsCombineLocked()
             items[i].disassemblable = Command_controller:Hero_can_disassemble_item(item)
             items[i].cooldownTimeRemaining = item:GetCooldownTimeRemaining()
+            items[i].isStackable = item:IsStackable()
         end
     end
     return items
