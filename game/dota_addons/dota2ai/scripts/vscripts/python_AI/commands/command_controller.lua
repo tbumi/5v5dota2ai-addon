@@ -183,7 +183,7 @@ function Command_controller:Sell(unit_entity, command_props)
             print("No item in slot " .. slot)
         end
     else
-        print("Bot tried to sell item outside shop")
+        print(unit_entity:GetName() .. " tried to sell item outside shop")
     end
 end
 
@@ -221,7 +221,7 @@ function Command_controller:Level_up(hero_entity, command_props)
     local required_level = ability_entity:GetHeroLevelRequiredToUpgrade()
     local hero_level = hero_entity:GetLevel()
     if hero_level < required_level then
-        print(hero_entity:GetName() .. "(level " .. hero_level .. ") tried to level up ability " .. ability_entity:GetName() .. " which requries level " .. required_level)
+        print(hero_entity:GetName() .. " (level " .. hero_level .. ") tried to level up ability " .. ability_entity:GetName() .. " which requries level " .. required_level)
         return
     end
 
@@ -269,7 +269,7 @@ function Command_controller:Use_item(hero_entity, command_props)
     if item_entity then
         self:Use_ability(hero_entity, item_entity, command_props)
     else
-        print("Bot tried to use item in empty slot")
+        print(hero_entity:GetName() .. " tried to use item in empty slot")
     end
 end
 
@@ -306,7 +306,7 @@ function Command_controller:Disassemble_item(hero_entity, command_props)
     if item_entity and self:Hero_can_disassemble_item(item_entity) then
         hero_entity:DisassembleItem(item_entity)
     else
-        print("Hero" .. hero_entity:GetName() .. "tried to disassemble Item" .. item_entity:GetName())
+        print("Hero " .. hero_entity:GetName() .. " tried to disassemble Item " .. item_entity:GetName())
     end
 end
 
@@ -387,10 +387,10 @@ function Command_controller:Use_tp_scroll(hero_entity, command_props)
         if tp_scroll_entity:IsCooldownReady() then
             self:Use_ability(hero_entity, tp_scroll_entity, command_props)
         else
-            print("Bot tried to use town portal scrolls while on cooldown.")
+            print(hero_entity:GetName() .. " tried to use town portal scrolls while on cooldown.")
         end
     else
-        print("Bot has no town portal scrolls available.")
+        print(hero_entity:GetName() .. " has no town portal scrolls available.")
     end
 end
 
@@ -525,10 +525,10 @@ end
 ---@return boolean
 function Command_controller:Hero_can_cast_ability(hero_entity, ability_entity)
     if not self:Hero_can_afford_to_cast_ability(hero_entity, ability_entity) then
-        print("Bot tried to use ability without mana")
+        print(hero_entity:GetName() .. " tried to use ability " .. ability_entity:GetAbilityName() .. " without mana")
         return false
     elseif ability_entity:GetCooldownTimeRemaining() > 0 then
-        print("Bot tried to use ability still on cooldown")
+        print(hero_entity:GetName() .. " tried to use ability " .. ability_entity:GetAbilityName() .. " still on cooldown")
         return false
     end
     return true
@@ -543,14 +543,14 @@ function Command_controller:Use_ability(hero_entity, ability_entity, command_pro
     local behavior = ability_entity:GetBehavior()
 
     if level == 0 then
-        print("Bot tried to use ability without level")
+        print(hero_entity:GetName() .. " tried to use ability " .. ability_entity:GetAbilityName() .. " without level")
         return
     end
 
     if not self:Hero_can_afford_to_cast_ability(hero_entity, ability_entity) then
-        print("Bot tried to use ability without mana")
+        print(hero_entity:GetName() .. " tried to use ability " .. ability_entity:GetAbilityName() .. " without mana")
     elseif ability_entity:GetCooldownTimeRemaining() > 0 then
-        print("Bot tried to use ability still on cooldown")
+        print(hero_entity:GetName() .. " tried to use ability " .. ability_entity:GetAbilityName() .. " still on cooldown")
     else
         if not ability_entity:IsItem() then
             ability_entity:StartCooldown(ability_entity:GetCooldown(level))
