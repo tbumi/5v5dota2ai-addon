@@ -214,14 +214,14 @@ function Command_controller:Level_up(hero_entity, command_props)
     local ability_entity = hero_entity:GetAbilityByIndex(command_props.ability)
 
     if ability_entity:GetLevel() == ability_entity:GetMaxLevel() then
-        print(hero_entity:GetName() .. ": " .. ability_entity:GetName() .. " is maxed out")
+        print(hero_entity:GetName() .. ": " .. ability_entity:GetAbilityName() .. " is maxed out")
         return
     end
 
     local required_level = ability_entity:GetHeroLevelRequiredToUpgrade()
     local hero_level = hero_entity:GetLevel()
     if hero_level < required_level then
-        print(hero_entity:GetName() .. " (level " .. hero_level .. ") tried to level up ability " .. ability_entity:GetName() .. " which requries level " .. required_level)
+        print(hero_entity:GetName() .. " (level " .. hero_level .. ") tried to level up ability " .. ability_entity:GetAbilityName() .. " which requries level " .. required_level)
         return
     end
 
