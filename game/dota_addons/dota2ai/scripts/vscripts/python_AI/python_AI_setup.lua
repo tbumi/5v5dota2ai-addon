@@ -17,7 +17,7 @@ function Python_AI_setup:Set_context_think_for_heroes(heroes)
             ---@return number
             callback = function()
                 Python_AI_thinking:On_think(heroes)
-                return 0.33
+                return 1 / 3
             end
         }
     )
