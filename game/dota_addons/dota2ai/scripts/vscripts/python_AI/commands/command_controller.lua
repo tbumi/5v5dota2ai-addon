@@ -32,7 +32,7 @@ function Command_controller:Parse_hero_command(hero_entity, command_props)
     end
 
     --TODO deal with abilities that the hero can interrupt
-    if self:Hero_has_active_ability(hero_entity) then
+    if command ~= "BUY" and command ~= "LEVEL_UP" and command ~= "COURIER_TRANSFER_ITEMS" and command ~= "COURIER_SECRET_SHOP" and self:Hero_has_active_ability(hero_entity) then
         print(hero_entity:GetName() .. " is casting an ability. " .. command .. " was ignored.")
         return
     end
